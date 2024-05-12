@@ -1,0 +1,136 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<!-- v1.01 08/27/2020-->
+
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <title>{% block title %}  Coral Payroll {% endblock %}</title>
+    <meta name="Coral Payroll" content="business payroll">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="aiquilibrium" content="porfolio">
+    <link href="{% static './css/styles.css' %}" rel="stylesheet">
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-mg navbar-dark bg-dark mb-4">
+        <a class="navbar-brand" href="{% url 'home' %}">Coral Payroll</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
+                aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+            <spam class="navbar-toggler-icon ">
+            </spam>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            {% if user.is_authenticated %}
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link dropdown-toggle" href="#" id="userMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        {{user.username}}
+                    </a>
+
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userMenu">
+                        <a class="dropdown-item" href="{%url 'password_change' %}">Change Password</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="{%url 'logout' %}">
+                            <span>
+                                <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 551.13 551.13">
+                                    <path d="m435.616 160.051-24.354 24.354 73.937 73.937h-244.08v34.446h244.08l-73.937 73.937 24.354 24.354 115.514-115.514z" />
+                                    <path d="m378.902 516.685h-344.456v-482.239h344.456v34.446h34.446v-51.669c0-9.52-7.703-17.223-17.223-17.223h-378.902c-9.52 0-17.223 7.703-17.223 17.223v516.684c0 9.52 7.703 17.223 17.223 17.223h378.902c9.52 0 17.223-7.703 17.223-17.223v-51.668h-34.446z" />
+                                </svg>
+                            </span>
+                            Log Out
+                        </a>
+                    </div>
+                </li>
+            </ul>
+            {% else %}
+            <form class="form-inline ml-auto">
+                <a href="{% url 'login' %}" class="btn btn-outline-secondary">
+                    <span>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                            <path d="M22 4.25a.75.75 0 00-1.5 0v15a.75.75 0 001.5 0v-15zm-9.72 14.28a.75.75 0 11-1.06-1.06l4.97-4.97H1.75a.75.75 0 010-1.5h14.44l-4.97-4.97a.75.75 0 011.06-1.06l6.25 6.25a.75.75 0 010 1.06l-6.25 6.25z">
+                            </path>
+                        </svg>
+                    </span>
+                    Log In
+                </a>
+                <a href="{% url 'signup' %}" class="btn btn-primary ml-2">
+                    <span>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                            <path fill-rule="evenodd"
+                                  d="M5.962 2.513a.75.75 0 01-.475.949l-.816.272a.25.25 0 00-.171.237V21.25c0 .138.112.25.25.25h14.5a.25.25 0 00.25-.25V3.97a.25.25 0 00-.17-.236l-.817-.272a.75.75 0 01.474-1.424l.816.273A1.75 1.75 0 0121 3.97v17.28A1.75 1.75 0 0119.25 23H4.75A1.75 1.75 0 013 21.25V3.97a1.75 1.75 0 011.197-1.66l.816-.272a.75.75 0 01.949.475z">
+                            </path>
+                            <path fill-rule="evenodd"
+                                  d="M7 1.75C7 .784 7.784 0 8.75 0h6.5C16.216 0 17 .784 17 1.75v1.5A1.75 1.75 0 0115.25 5h-6.5A1.75 1.75 0 017 3.25v-1.5zm1.75-.25a.25.25 0 00-.25.25v1.5c0 .138.112.25.25.25h6.5a.25.25 0 00.25-.25v-1.5a.25.25 0 00-.25-.25h-6.5z">
+                            </path>
+                        </svg>
+                    </span>
+                    Sign up
+                </a>
+            </form>
+            {% endif %}
+
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="{% url 'home' %}"> Home </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Menu 1</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Menu 2</a>
+                </li>
+            </ul>
+
+        </div>
+    </nav>
+
+    <!--navbar-->
+    <!-- content block -->
+    <div class="container">
+
+        <!--first row for error messages-->
+        <div class="row">
+            <div class="col-sm">
+                {% if messages %}
+                <ul>
+                    {% for message in messages %}
+                    <li>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+            </div>
+        </div>
+
+        {% block content %}
+        {% endblock content %}
+
+        <!-- Footer -->
+        <footer class="page-footer font-small  pt-4 fixed-bottom footer-dark">
+            <!-- Copyright -->
+            <div class="footer-copyright text-center py-3 footer-bg">
+                (c) 2024 Copyright: <a href="https://aiquilibrium.dev/"> AIquilibrium Corp.</a>
+            </div>
+            <!-- Copyright -->
+        </footer>
+        <!-- Footer -->
+    </div>
+    <!--container-->
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous">
+    </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
+    </script>
+</body>
+
+</html>
