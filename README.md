@@ -23,3 +23,9 @@ __activate the virtual environmnet__
 `pip install crispy-bootstrap5`
 
 `pip install whitenoise`
+
+`pip install sqlalchemy`
+
+colect static result:
+
+129 static files copied to 'F:\sources\coralpayroll\coralpayroll_project\assests', 385 post-processed.
