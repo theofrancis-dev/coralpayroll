@@ -28,4 +28,6 @@ __activate the virtual environmnet__
 
 colect static result:
 
+`pip install django-encrypted-model-fields`
+
 129 static files copied to 'F:\sources\coralpayroll\coralpayroll_project\assests', 385 post-processed.
