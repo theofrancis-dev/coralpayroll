@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Business Detail</h1>
+
+<!--
+<dl>
+    <dt>Entity Name:</dt>
+    <dd>{{ business.entity_name }}</dd>
+
+    <dt>Business Type:</dt>
+    <dd>{{ business.business_type }}</dd>
+
+    Add other fields as needed
+</dl>
+-->
+<dl>
+    <div>
+        <div><strong>Entity Name: </strong> {{ business.entity_name }}</div>
+        <div><strong>Business Type: </strong>{{ business.get_business_type_display }}</div>
+        <div><strong>Owner: </strong>{{ business.owner }}</div>
+        <div><strong>FEI/EIN Number: </strong>{{ business.fei_ein_number }}</div>
+        <div><strong>Date Filed: </strong>{{ business.date_filed }}</div>
+        <div><strong>State: </strong>{{ business.get_state_display }}</div>
+        <div><strong>Status Active: </strong>{{ business.status_active }}</div>
+        <div><strong>Principal Address: </strong>{{ business.principal_address }}</div>
+        <div><strong>Mailing Address: </strong>{{ business.mailing_address }}</div>
+        <div><strong>Registered Agent: </strong>{{ business.registered_agent }}</div>
+        <div><strong>Registered Agent Address: </strong>{{ business.registered_agent_address }}</div>
+    </div>
+
+
+
+</dl>
+
+
+<div>
+    <!-- Button to navigate to the update view -->
+    <a href="{% url 'business-update' business.pk %}" class="btn btn-primary">Update Business</a>
+</div>
+{% endblock %}
+
+
+
+

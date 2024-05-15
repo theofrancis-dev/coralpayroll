@@ -10,11 +10,23 @@ __activate the virtual environmnet__
 
 `.venv\Scripts\activate`
 
+__activate the virtual environment LINUX__
+
+`source ./venv/bin/activate`
+
+__install the package__
+
 `python -m pip install django`
 
 `python -m pip install python-dotenv`
 
+ __postgress windows__
+
 `pip install psycopg2`
+
+__postgress linux__
+
+`pip install psycopg2-binary`
 
 `pip install django-bootstrap-v5`
 
@@ -26,8 +38,27 @@ __activate the virtual environmnet__
 
 `pip install sqlalchemy`
 
+`pip install gunicorn`
+
 colect static result:
 
 `pip install django-encrypted-model-fields`
 
-129 static files copied to 'F:\sources\coralpayroll\coralpayroll_project\assests', 385 post-processed.
+create the .env file at ./coral_payroll/coral_payroll
+and fill this variables:
+
+SECRET_KEY = 'django-insecure-yy_@v%r(2$ti36atw8#^ycho7ue&@)4l!ig+i=h0r0w$8hyj!v'
+DEBUG = True
+DATABASE_NAME = ''
+DATABASE_USER = ''
+DATABASE_PASSWORD = ''
+DATABASE_HOST = ''
+DATABASE_PORT = ''
+SUPERUSER=''
+SUPERUSER_PASSWORD=''
+SUPERUSER_EMAIL=''
+ALLOWED_HOSTS = ''
+FIELD_ENCRYPTION_KEY = ''
+
+run gunicorn
+https://docs.djangoproject.com/en/5.0/howto/deployment/wsgi/gunicorn/
