@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+  <h3>Clients</h3>
+  <a href="{% url 'create-client' %}" class="btn btn-primary">New Client</a>
+  <table class="table table-striped table-hover table-bordered">
+    <thead>
+      <tr>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Email</th>
+        <th>Phone</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for client in clients %}      
+      <tr>        
+        <td onclick="window.location='{% url 'client-detail' client.pk %}'" style="cursor:pointer;">
+          {% if business %}
+            <a href="{% url 'add_staff' client.pk %}" class="btn btn-success">+</a>
+          {% endif %}
+          {{ client.first_name }}
+        </td>
+        <td onclick="window.location='{% url 'client-detail' client.pk %}'" style="cursor:pointer;">{{ client.last_name }}</td>
+        
+        <td onclick="window.location='{% url 'client-detail' client.pk %}'" style="cursor:pointer;">
+          {% if client.email1 %}          
+          <a href= "mailto: {{ client.email1 }}">{{ client.email1 }}</a>
+          {% endif %}
+        </td>
+
+        <td onclick="window.location='{% url 'client-detail' client.pk %}'" style="cursor:pointer;">
+          {% if client.phone1 %}
+          <a href="tel:{{ client.phone1 }}">{{ client.phone1 }}</a>            
+          {% endif %}  
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <div class="pagination">
+    <span class="step-links">
+      {% if clients.has_previous %}
+        <a href="?page=1">&laquo; first</a>
+        <a href="?page={{ clients.previous_page_number }}">previous</a>
+      {% endif %}
+
+      <span class="current">
+        Page {{ clients.number }} of {{ clients.paginator.num_pages }}.
+      </span>
+
+      {% if clients.has_next %}
+        <a href="?page={{ clients.next_page_number }}">next</a>
+        <a href="?page={{ clients.paginator.num_pages }}">last &raquo;</a>
+      {% endif %}
+    </span>
+  </div>
+{% endblock %}

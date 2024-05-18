@@ -1,4 +1,6 @@
 from django.db import models
+from django.utils.translation import gettext_lazy as _
+
 #from encrypted_fields import EncryptedCharField
 
 # Define choices for states
@@ -73,6 +75,8 @@ class Person(models.Model):
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
     middle_name = models.CharField(max_length=100, blank=True, null=True)
+    last_ssn = models.CharField(max_length=12, blank=True, null=True)
+    
     #ssn = EncryptedCharField(max_length=100)  # Encrypted SSN field
     email1 = models.EmailField(blank=True, null=True)
     email2 = models.EmailField(blank=True, null=True)
@@ -81,6 +85,9 @@ class Person(models.Model):
     phone3 = models.CharField(max_length=20, blank=True, null=True)
     address = models.ForeignKey(Address, on_delete=models.CASCADE)
     lastupdate = models.DateTimeField(auto_now_add=True)
+    
+    businesses = models.ManyToManyField('Business', through='Employment')
+    # Many-to-many relationship with Business
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
@@ -119,4 +126,20 @@ class Business(models.Model):
     def __str__(self):
         return self.entity_name
 
-        
+
+class Employment(models.Model):
+    person = models.ForeignKey(Person, on_delete=models.CASCADE)
+    business = models.ForeignKey(Business, on_delete=models.CASCADE)
+    create_time = models.DateTimeField(auto_now_add=True)
+
+class Earnings(models.Model):
+    person = models.ForeignKey(Person, on_delete=models.CASCADE)
+    business = models.ForeignKey(Business, on_delete=models.CASCADE)
+    date = models.DateField()
+    earnings = models.DecimalField(max_digits=10, decimal_places=2, verbose_name=_("earnings (USD)"))
+
+    def __str__(self):
+        return f"Earnings for {self.person} at {self.business} on {self.date}"
+
+
+

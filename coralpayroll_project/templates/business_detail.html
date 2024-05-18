@@ -1,19 +1,9 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>Business Detail</h1>
+<h1>Details</h1>
+<hr>
 
-<!--
-<dl>
-    <dt>Entity Name:</dt>
-    <dd>{{ business.entity_name }}</dd>
-
-    <dt>Business Type:</dt>
-    <dd>{{ business.business_type }}</dd>
-
-    Add other fields as needed
-</dl>
--->
 <dl>
     <div>
         <div><strong>Entity Name: </strong> {{ business.entity_name }}</div>
@@ -28,15 +18,14 @@
         <div><strong>Registered Agent: </strong>{{ business.registered_agent }}</div>
         <div><strong>Registered Agent Address: </strong>{{ business.registered_agent_address }}</div>
     </div>
-
-
-
 </dl>
 
 
 <div>
     <!-- Button to navigate to the update view -->
-    <a href="{% url 'business-update' business.pk %}" class="btn btn-primary">Update Business</a>
+    <a href="{% url 'business-update' business.pk %}" class="btn btn-primary">Update</a>
+    <a href="{% url 'list_staff' business.id %}" class="btn btn-primary">Staff</a>
+    
 </div>
 {% endblock %}
 

@@ -10,7 +10,7 @@
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" 
           crossorigin="anonymous">
 
-    <title>{% block title %}  Coral Payroll {% endblock %}</title>
+    <title>{% block title %} Coral Payroll {% endblock %}</title>
 
     <meta name="Coral Payroll" content="business payroll">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -22,7 +22,7 @@
 <body>
 
     <nav class="navbar navbar-expand-mg navbar-dark bg-dark mb-4">
-        <a class="navbar-brand" href="{% url 'home' %}">Coral Payroll</a>
+        <a class="navbar-brand" href="{% url 'home' %}">Coral Payroll</a>        
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
                 aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
             <spam class="navbar-toggler-icon ">
@@ -85,10 +85,10 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Menu 1</a>
+                    <a class="nav-link" href="{% url 'business-list' %}">Businesses</a>                    
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Menu 2</a>
+                    <a class="nav-link" href="{% url 'list-clients' %}">Clients</a>
                 </li>
             </ul>
 
@@ -98,8 +98,11 @@
     <!--navbar-->
     <!-- content block -->
     <div class="container">
-
-        <!--first row for error messages-->
+        {% if current_business %}
+            <h1>Current Business: {{ current_business.entity_name }}</h1>
+        {% endif %}
+        <hr>
+         <!--first row for error messages-->
         <div class="row">
             <div class="col-sm">
                 {% if messages %}
@@ -116,11 +119,7 @@
         {% endblock content %}
 
         <!-- Footer -->
-        <footer class="page-footer font-small  pt-4 fixed-bottom footer-dark">
-            <div>
-                <a href="{% url 'business-list' %}" class="btn btn-primary">Business List</a>
-                <a href="{% url 'create-business' %}" class="btn btn-primary">New Business</a>
-            </div>
+        <footer class="page-footer font-small  pt-4 fixed-bottom footer-dark">            
             <!-- Copyright -->
             <div class="footer-copyright text-center py-3 footer-bg">
                 (c) 2024 Copyright: <a href="https://aiquilibrium.dev/"> AIquilibrium Corp.</a>

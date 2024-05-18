@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Client Details</h1>
+  <dl>
+    <dt>First Name:</dt>
+    <dd>{{ client.first_name }}</dd>
+
+    <dt>Last Name:</dt>
+    <dd>{{ client.last_name }}</dd>
+
+    <dt>Middle Name:</dt>
+    <dd>{{ client.middle_name }}</dd>
+
+    <dt>Email 1:</dt>
+    <dd>{{ client.email1 }}</dd>
+
+    <dt>Email 2:</dt>
+    <dd>{{ client.email2 }}</dd>
+
+    <dt>Phone 1:</dt>
+    <dd>{{ client.phone1 }}</dd>
+
+    <dt>Phone 2:</dt>
+    <dd>{{ client.phone2 }}</dd>
+
+    <dt>Phone 3:</dt>
+    <dd>{{ client.phone3 }}</dd>
+
+    <dt>Address:</dt>
+    <dd>{{ client.address }}</dd>
+  </dl>
+
+  <a href="{% url 'update-client' client.pk %}" class="btn btn-primary">Update</a>
+  <a href="{% url 'delete-client' client.pk %}" class="btn btn-danger">Delete</a>
+  <!-- Add more buttons as needed -->
+{% endblock %}
+

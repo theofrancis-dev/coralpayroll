@@ -1,5 +1,6 @@
 from django import forms
 from .models import Business
+from .models import Address, Person
 
 
 # ModelForm to create a form that is automatically generated from the Business model.
@@ -17,3 +18,14 @@ class BusinessCreateForm(forms.ModelForm):
     class Meta:
         model = Business
         fields = '__all__'  # Use all fields from the Business model
+
+
+class AddressForm(forms.ModelForm):
+    class Meta:
+        model = Address
+        fields = ['address1', 'city', 'state', 'country', 'postal_code']
+
+class PersonForm(forms.ModelForm):
+    class Meta:
+        model = Person
+        fields = ['first_name', 'last_name', 'middle_name', 'last_ssn','email1', 'phone1', 'phone2']
