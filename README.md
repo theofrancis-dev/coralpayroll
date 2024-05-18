@@ -60,5 +60,16 @@ SUPERUSER_EMAIL=''
 ALLOWED_HOSTS = ''
 FIELD_ENCRYPTION_KEY = ''
 
+`sudo ufw allow port/udp`
+
+`sudo ufw allow port/tcp`
+
 run gunicorn
+
+gunicorn --bind 0.0.0.0:8009 your_project_name.wsgi:application
+
 https://docs.djangoproject.com/en/5.0/howto/deployment/wsgi/gunicorn/
+
+TODO:
+ - Calculos por cuatrimestre
+ 
