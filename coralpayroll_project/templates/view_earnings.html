@@ -1,0 +1,59 @@
+<!-- view_earnings.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Earnings for {{ person.first_name }} {{ person.last_name }}</h1>
+
+<form method="get">
+    <label for="year">Select Year:</label>
+    <select name="year" id="year" onchange="this.form.submit()">
+        {% for y in year_range %}
+        <option value="{{ y }}" {% if year == y %}selected{% endif %}>{{ y }}</option>
+        {% endfor %}
+    </select>
+</form>
+
+<table class="table table-striped table-hover">
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>Amount</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for earning in page_obj %}
+        <tr>
+            <td>{{ earning.date }}</td>
+            <td>${{ earning.amount }}</td>
+            <td>
+                <a href="{% url 'update_earning' business_id=business_id earning_id=earning.pk %}" class="btn btn-warning">
+                    <i class="fas fa-edit"></i>
+                </a>
+                <a href="{% url 'delete_earning' business_id=business_id earning_id=earning.pk %}" class="btn btn-danger">
+                    <i class="fas fa-trash"></i>
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<div class="pagination">
+    <span class="step-links">
+        {% if page_obj.has_previous %}
+        <a href="?page=1&year={{ year }}">&laquo; first</a>
+        <a href="?page={{ page_obj.previous_page_number }}&year={{ year }}">previous</a>
+        {% endif %}
+        <span class="current">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+        </span>
+        {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}&year={{ year }}">next</a>
+        <a href="?page={{ page_obj.paginator.num_pages }}&year={{ year }}">last &raquo;</a>
+        {% endif %}
+    </span>
+</div>
+
+<a href="{% url 'list_staff' business_id %}" class="btn btn-primary">Back to Staff List</a>
+{% endblock %}

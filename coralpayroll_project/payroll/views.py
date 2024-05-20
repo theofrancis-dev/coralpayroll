@@ -7,12 +7,20 @@ from django.views.generic import ListView
 from django.shortcuts import render, redirect
 from django.forms import inlineformset_factory
 from django.contrib.auth.decorators import login_required
+from django.shortcuts import get_object_or_404
+from django.urls import reverse
+from django.http import HttpResponseRedirect
+from datetime import datetime
 
 from .models import Business
 from .models import Address, Person, Employment
+from .models import Earnings
 
 from .forms import AddressForm, PersonForm
 from .forms import BusinessUpdateForm, BusinessCreateForm
+from .forms import EarningsForm
+
+
 
 
 #======================== BUSINESS SECTION =========================================
@@ -52,7 +60,7 @@ def business_detail(request, business_id):
     return render(request, 'business_detail.html', context)
 
 @login_required
-def business_update(LoginRequiredMixin,request, pk):
+def business_update(request, pk):
     business = get_object_or_404(Business, pk=pk)
     if request.method == 'POST':
         form = BusinessUpdateForm(request.POST, instance=business)
@@ -148,14 +156,15 @@ def delete_client(request, pk):
 #staff list view
 @login_required
 def list_staff(request, business_id):
-    #get current business
-    business_id = request.session.get('selected_business_id')
-    business = get_object_or_404(Business, pk=business_id) if business_id else None
-    staff = Person.objects.filter(businesses__id=business_id)  # Filter by the many-to-many relationship
+    # get current business
+    # business_id = request.session.get('selected_business_id')
+    # business = get_object_or_404(Business, pk=business_id) if business_id else None
+    # Filter by the many-to-many relationship
+    staff = Person.objects.filter(businesses__id=business_id)  
 
     context = {
-        'staff': staff,
-        'business' : business,
+        'staff': staff,       
+        'business_id': business_id,
     }
     return render(request, 'list_staff.html', context)
 
@@ -169,3 +178,92 @@ def add_staff(request, person_id):
     Employment.objects.create(person=client, business=business)
     
     return redirect('list_staff', business_id=business.id)
+
+@login_required
+def remove_staff(request, business_id, person_id):
+    # Remove the person from the business
+    employment = get_object_or_404(Employment, business_id=business_id, person_id=person_id)
+    employment.delete()  # This will remove the relationship but keep the person and business records
+
+    return redirect('list_staff', business_id=business_id)
+
+@login_required
+def add_earnings(request, business_id, person_id):
+    person = get_object_or_404(Person, pk=person_id)
+    if request.method == 'POST':
+        form = EarningsForm(request.POST)
+        if form.is_valid():
+            earnings = form.save(commit=False)
+            earnings.business_id = business_id
+            earnings.person_id = person_id
+            earnings.save()
+            return redirect('list_staff', business_id=business_id)
+    else:
+        form = EarningsForm(initial={'employee_name': f'{person.first_name} {person.last_name}'})
+    
+    context = {
+        'form': form,
+        'person': person,
+    }
+    return render(request, 'add_earnings.html', context)
+
+
+# views.py
+
+from django.core.paginator import Paginator
+from datetime import datetime
+
+# views.py
+
+@login_required
+def view_earnings(request, business_id, person_id):
+    person = get_object_or_404(Person, pk=person_id)
+    current_year = datetime.now().year
+    year = request.GET.get('year', current_year)
+    earnings = Earnings.objects.filter(business_id=business_id, person_id=person_id, date__year=year).order_by('-date')
+
+    paginator = Paginator(earnings, 10)  # Show 10 earnings per page
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    # Create a range of years from 2020 to 2050
+    year_range = range(2020, 2051)
+
+    context = {
+        'person': person,
+        'earnings': earnings,
+        'page_obj': page_obj,
+        'business_id': business_id,
+        'year': int(year),
+        'current_year': current_year,
+        'year_range': year_range,
+    }
+    return render(request, 'view_earnings.html', context)
+
+
+@login_required
+def delete_earning(request, business_id, earning_id):
+    earning = get_object_or_404(Earnings, pk=earning_id)
+    person_id = earning.person_id
+    earning.delete()
+    return HttpResponseRedirect(reverse('view_earnings', args=[business_id, person_id]))
+
+@login_required
+def update_earning(request, business_id, earning_id):
+    earning = get_object_or_404(Earnings, pk=earning_id)
+    person = earning.person
+    if request.method == 'POST':
+        form = EarningsForm(request.POST, instance=earning)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse('view_earnings', args=[business_id, person.id]))
+    else:
+        form = EarningsForm(instance=earning)
+    
+    context = {
+        'form': form,
+        'person': person,
+        'business_id': business_id,
+    }
+    return render(request, 'update_earning.html', context)
+

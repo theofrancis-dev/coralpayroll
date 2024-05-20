@@ -2,10 +2,11 @@
   "ExpandedNodes": [
     "",
     "\\coralpayroll_project",
+    "\\coralpayroll_project\\assests",
     "\\coralpayroll_project\\coralpayroll_project",
-    "\\coralpayroll_project\\payroll",
+    "\\coralpayroll_project\\static",
     "\\coralpayroll_project\\templates"
   ],
-  "SelectedNode": "\\README.md",
+  "SelectedNode": "\\coralpayroll_project\\templates\\home.html",
   "PreviewInSolutionExplorer": false
 }

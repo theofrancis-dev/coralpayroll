@@ -73,3 +73,5 @@ https://docs.djangoproject.com/en/5.0/howto/deployment/wsgi/gunicorn/
 TODO:
  - Calculos por cuatrimestre
  
+Static files are at: 
+.\coralpayroll_project\accounts\static

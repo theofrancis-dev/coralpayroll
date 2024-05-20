@@ -86,7 +86,7 @@ class Person(models.Model):
     address = models.ForeignKey(Address, on_delete=models.CASCADE)
     lastupdate = models.DateTimeField(auto_now_add=True)
     
-    businesses = models.ManyToManyField('Business', through='Employment')
+    businesses = models.ManyToManyField('Business', through='Employment')    
     # Many-to-many relationship with Business
 
     def __str__(self):
@@ -102,6 +102,7 @@ BUSINESS_TYPE = [
     ('close_corporation', 'Close Corporation'),
     ('nonprofit_corporation', 'Nonprofit Corporation'),
     ('fl_profit_corp','Florida Profit Corp'),
+    ('fl_llc','Florida Limited Liability Company'),
 ]
 
 class Business(models.Model):
@@ -136,7 +137,7 @@ class Earnings(models.Model):
     person = models.ForeignKey(Person, on_delete=models.CASCADE)
     business = models.ForeignKey(Business, on_delete=models.CASCADE)
     date = models.DateField()
-    earnings = models.DecimalField(max_digits=10, decimal_places=2, verbose_name=_("earnings (USD)"))
+    amount = models.DecimalField(max_digits=10, decimal_places=2, verbose_name=_("earnings (USD)"))
 
     def __str__(self):
         return f"Earnings for {self.person} at {self.business} on {self.date}"
